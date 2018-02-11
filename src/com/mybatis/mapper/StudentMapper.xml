@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mybatis.config.StudentMapper"><!--标志mapper(映射)是哪一个接口的mapper-->
+    <resultMap id="studentMapper" type="com.mybatis.config.Student"><!--声明mapper的id type表示映射道德javabean-->
+        <id column="username" property="username"/><!--id 主键 column☞数据库 property☞javabean 这里省略了java type等-->
+        <result property="password" column="password"/>
+    </resultMap>
+    <insert id="insertStudent" parameterType="com.mybatis.config.Student" ><!--parameter表示传入参数是啥--><!--对应StudentMapper接口里的方法名-->
+        INSERT INTO users (username,password)VALUES (#{username},#{password})
+<!--#{}对应studentmapper里的参数-->
+    </insert>
+    <select id="selectOneById" resultMap="studentMapper">
+        SELECT * FROM users WHERE username=#{0} and password=#{1}
+    </select>
+
+    <select id="selectAllStudent" resultMap="studentMapper"><!--resultType可设定返回类型-->
+        SELECT *FROM users
+    </select>
+    <delete id="deleteOneById" parameterType="int">
+        delete from users where username=#{id}
+    </delete>
+
+</mapper>
